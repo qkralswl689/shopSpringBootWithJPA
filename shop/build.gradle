@@ -50,6 +50,9 @@ dependencies {
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 	//
+
+	// ModelMapper 사용
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.9'
 }
 
 tasks.named('test') {
