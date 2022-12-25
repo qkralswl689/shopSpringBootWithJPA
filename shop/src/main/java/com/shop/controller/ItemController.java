@@ -96,8 +96,8 @@ public class ItemController {
         return "redirect:/";
     }
 
-    @GetMapping(value = {"/admin/items", "/admin/item/{page}"} )
-    public String itemMange(ItemSearchDto itemSearchDto, @PathVariable("page")Optional<Integer> page, Model model){
+    @GetMapping(value = {"/admin/items", "/admin/items/{page}"} )
+    public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page")Optional<Integer> page, Model model){
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0,3);
 
@@ -106,5 +106,13 @@ public class ItemController {
         model.addAttribute("itemSearchDto",itemSearchDto);
         model.addAttribute("maxPage",5);
         return "item/itemMng";
+    }
+
+    @GetMapping(value = "/item/{itemId}")
+    public String itemDtl(Model model, @PathVariable("itemId") Long itemId){
+        ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+        model.addAttribute("item", itemFormDto);
+
+        return "item/itemDtl";
     }
 }
