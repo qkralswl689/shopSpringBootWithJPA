@@ -34,6 +34,7 @@ public class ItemImgService {
             imgName = fileService.uploadFile(itemImgLocation, oriImgName,itemImgFile.getBytes());
 
             imgUrl = "/images/item/" + imgName;
+            //imgUrl = itemImgLocation + "/" + imgName;
         }
 
         // 상품 이미지 저장 정보
