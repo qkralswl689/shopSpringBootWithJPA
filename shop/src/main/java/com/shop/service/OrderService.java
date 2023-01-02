@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityExistsException;
 import java.util.ArrayList;
@@ -70,5 +71,24 @@ public class OrderService {
         }
 
         return new PageImpl<OrderHisDto>(orderHisDtos, pageable, totalCount);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean validateOrder(Long orderId, String email){
+
+        Member curMember = memberRepository.findByEmail(email);
+        Order order = orderRepository.findById(orderId).orElseThrow(EntityExistsException::new);
+        Member saveMember = order.getMember();
+
+        if(!StringUtils.equals(curMember.getEmail(), saveMember.getEmail())){
+            return false;
+        }
+
+        return true;
+    }
+
+    public void cancleOrder(Long orderId){
+        Order order = orderRepository.findById(orderId).orElseThrow(EntityExistsException::new);
+        order.cancleOrder();
     }
 }
